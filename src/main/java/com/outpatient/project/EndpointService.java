@@ -2,7 +2,6 @@ package com.outpatient.project;
  
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 
 
@@ -15,39 +14,39 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Path("/physicaltherapy") 
 public class EndpointService {
 	
-	private final static String TOKEN = "Bearer inqDSpBEgWO_FDmBVFNTjAP3A__VeVvLXWOA7KJ7rMXTQQczLj1m5tY1lwwG4ud8zxE8D_EEm5YDinPqEDV0QcVrywcmVIRFPAfEGiniRfpR0NzsL9Ny9Rr1yPzWWnYx";
- 
 	@GET
 	@Path("/default")
 	public Response getMsg(@QueryParam("location") String location) {
- 
-		//String output = "Jersey say : " + location;
-		String url = "https://api.yelp.com/v3/businesses/search?categories=physicaltherapy&limit=10&location="+location+"&offset=";
-		String output = recursiveGeneralRequest(0, url, new double[4]);
+		if(location.length() == 0)
+			return Response.status(Status.BAD_REQUEST).entity(Constant.EMPTY_LOCATION).build();
 		
-		return Response.status(200).entity(output).build();
- 
+		String url = Constant.URL+location+"&offset=";
+		String output = recursiveGeneralRequest(0, url, new double[4]);
+		if(output.length() == 0)
+			return Response.status(Status.BAD_REQUEST).entity(Constant.ERROR_MSG).build();
+		return Response.status(Status.OK).entity(output).build();
 	}
 	
 	@GET
 	@Path("/sorted")
-	public Response getSortedMsg(@QueryParam("location") String location) throws JsonGenerationException, JsonMappingException, IOException {
+	public Response getSortedMsg(@QueryParam("location") String location) {
+		if(location.length() == 0)
+			return Response.status(Status.BAD_REQUEST).entity(Constant.EMPTY_LOCATION).build();
  
-		String url = "https://api.yelp.com/v3/businesses/search?categories=physicaltherapy&limit=10&location="+location+"&offset=";
+		String url = Constant.URL+location+"&offset=";
 		List<Business> businessList = recursiveSortedRequest(0, url, new LinkedList<Business>());
 		
 		Collections.sort(businessList, new Comparator<Business>() {
@@ -59,13 +58,14 @@ public class EndpointService {
 		
 		final ByteArrayOutputStream out = new ByteArrayOutputStream();
 		final ObjectMapper mapper = new ObjectMapper();
-
-		mapper.writeValue(out, businessList);
-
-		final byte[] data = out.toByteArray();
-		System.out.println(new String(data));
-		return Response.status(200).entity(new String(data)).build();
- 
+		try {
+			mapper.writeValue(out, businessList);
+			final byte[] data = out.toByteArray();
+			System.out.println(new String(data));
+			return Response.status(200).entity(new String(data)).build();
+		} catch (Exception e) {
+			return Response.status(Status.BAD_REQUEST).entity(Constant.ERROR_MSG).build();
+		}
 	}
 	
 	private String recursiveGeneralRequest(int offset, String url, double[] result){
@@ -73,7 +73,7 @@ public class EndpointService {
 		url += offset;
 		HttpClient client = new DefaultHttpClient();
 		HttpGet request = new HttpGet(url);
-		request.addHeader("Authorization", TOKEN);
+		request.addHeader(Constant.AUTHORIZATION, Constant.TOKEN);
 		
 		HttpResponse response;
 		try {
@@ -86,7 +86,7 @@ public class EndpointService {
 
 			//read JSON like DOM Parser
 			JsonNode rootNode = objectMapper.readTree(in);
-			int total = rootNode.path("total").asInt();
+			int total = rootNode.path(Constant.TOTAL).asInt();
 			
 			new ResponseService().getSummary(rootNode, result);
 			int limit = 50;
@@ -115,7 +115,7 @@ public class EndpointService {
 		url += offset;
 		HttpClient client = new DefaultHttpClient();
 		HttpGet request = new HttpGet(url);
-		request.addHeader("Authorization", TOKEN);
+		request.addHeader(Constant.AUTHORIZATION, Constant.TOKEN);
 		
 		HttpResponse response;
 		try {
@@ -128,7 +128,7 @@ public class EndpointService {
 
 			//read JSON like DOM Parser
 			JsonNode rootNode = objectMapper.readTree(in);
-			int total = rootNode.path("total").asInt();
+			int total = rootNode.path(Constant.TOTAL).asInt();
 			
 			new ResponseService().getSortedSummary(rootNode, businessList);
 			int limit = 50;
