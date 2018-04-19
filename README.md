@@ -6,6 +6,7 @@ Technologies used -
 4) Maven to buid and deploy the project
 5) Tomcat webserver
 
+
 Steps to Build the project - 
 
 1) Open command prompt and navigate to the home direcotry of the project, and type 
@@ -13,11 +14,16 @@ Steps to Build the project -
 
 2) it should generate the executable in the target direcotry as 'outpatient.war'
 
+
+
 Deployment process -
 
 1) Start Tomcat server
 
 2) Go to the webapps folder in the Tomcat server and place the 'outpatient.war' file in that direcotry.
+
+
+~~~~~~If you are not modifing the source code, you can directly copy the 'outpatient.war' file from the target directory and put it in the server.~~~~~~~
 
 
 Project API endpoints -
@@ -35,6 +41,9 @@ If the server is hosted in some other machine and port number is different than 
   http://<IP Address: Port Number>/outpatient/physicaltherapy/default?location=<locationname>
   
   http://<IP Address: Port Number>/outpatient/physicaltherapy/sorted?location=<locationname>
+  
+
+  
   
 Sample Response - 
 
