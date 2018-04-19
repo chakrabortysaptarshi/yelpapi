@@ -1,32 +1,32 @@
-Technologies used - 
+<b>Project Specifications</b> <br/><br/>
 
+<b>Technologies used</b> 
 1) Java 
 2) Jersey framework for REST API
 3) Jackson library for JSON parsing
 4) Maven to buid and deploy the project
 5) Tomcat webserver
+<br/><br/>
 
-
-Steps to Build the project - 
+<b>Steps to Build the project </b> 
 
 1) Open command prompt and navigate to the home direcotry of the project, and type 
 			mvn clean install
 
 2) it should generate the executable in the target direcotry as 'outpatient.war'
+<br/><br/>
 
-
-
-Deployment process -
+<b>Deployment process </b>-
 
 1) Start Tomcat server
 
 2) Go to the webapps folder in the Tomcat server and place the 'outpatient.war' file in that direcotry.
 
 
-If you are not modifing the source code, you can directly copy the 'outpatient.war' file from the target directory and put it in the server.
+<b>If you are not modifing the source code, you can directly copy the 'outpatient.war' file from the target directory and put it in the server.</b>
+<br><br><br>
 
-
-Project API endpoints -
+<b>Project API endpoints</b>
 
 Question 1 - http://localhost:8080/outpatient/physicaltherapy/default?location=<locationname>
 
@@ -42,10 +42,9 @@ If the server is hosted in some other machine and port number is different than 
   
   http://<IP Address: Port Number>/outpatient/physicaltherapy/sorted?location=<locationname>
   
-
-  
-  
-Sample Response - 
+<br/><br/>
+   
+<b>Sample Response</b> 
 
 Question 1 - 
 
