@@ -28,9 +28,9 @@
 
 <b>Project API endpoints</b>
 
-Question 1 - http://localhost:8080/outpatient/physicaltherapy/default?location=<locationname>
+Question 1 - http://localhost:8080/outpatient/physicaltherapy/default?location={locationname}
 
-Question 2 - http://localhost:8080/outpatient/physicaltherapy/sorted?location=<locationname>
+Question 2 - http://localhost:8080/outpatient/physicaltherapy/sorted?location={locationname}
 
 Type any one of these URL in the browser and the result will be displayed in a JSON format.
 
@@ -38,9 +38,9 @@ For both the APIs, if the request is successful, it will return 200 as response 
 
 If the server is hosted in some other machine and port number is different than 8080, then the API or generic API structure is -
 
-  http://<IP Address: Port Number>/outpatient/physicaltherapy/default?location=<locationname>
+  http://{IP Address: Port Number}/outpatient/physicaltherapy/default?location={locationname}
   
-  http://<IP Address: Port Number>/outpatient/physicaltherapy/sorted?location=<locationname>
+  http://{IP Address: Port Number}/outpatient/physicaltherapy/sorted?location={locationname}
   
 <br/><br/>
    
