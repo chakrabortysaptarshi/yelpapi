@@ -23,7 +23,7 @@ Deployment process -
 2) Go to the webapps folder in the Tomcat server and place the 'outpatient.war' file in that direcotry.
 
 
-~~~~~~If you are not modifing the source code, you can directly copy the 'outpatient.war' file from the target directory and put it in the server.~~~~~~~
+If you are not modifing the source code, you can directly copy the 'outpatient.war' file from the target directory and put it in the server.
 
 
 Project API endpoints -
